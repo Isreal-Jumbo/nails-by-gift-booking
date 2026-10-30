@@ -14,6 +14,7 @@ deposit instructions with the customer there.
   Junction, Abule-Egba, Lagos, Nigeria
 - WhatsApp: +234 901 381 4632
 - TikTok: @nailsbygift145
+- Business time zone: Africa/Lagos
 - Opening hours: 10:00 a.m.–6:00 p.m., Monday through Saturday
 - Closed: Sunday
 - Home service: available within Lagos; travel cost is agreed in WhatsApp
@@ -55,31 +56,30 @@ subject to confirmation.
 - Home page with salon introduction and booking/contact calls to action
 - Services and styles with indicative prices and a custom-design WhatsApp link
 - Gallery of Gift's nail-work photos
+- Muted hero background video with a still-image fallback
 - Availability calendar and preferred-time selection
 - Booking request summary that opens WhatsApp with the selected details
 - Contact section with address, salon contacts, and map link if supplied
-- Private Gift dashboard for appointments, blocked dates, daily capacity,
-  services, and gallery photos
+- Private Gift dashboard for appointments, deposit status, blocked dates, and
+  daily capacity
+- Lazy-loaded gallery photos with image skeletons while each image loads
+- Availability skeletons while the schedule is being fetched
 
 ## Backend and data
 
-Use Supabase with PostgreSQL, owner authentication, and image storage. The
-website may read public service, published gallery, and available-time data.
-Customer and appointment details must stay private to the owner dashboard.
+Use Supabase with PostgreSQL and owner authentication. Business schedule and
+service descriptions can stay in the website configuration for the first
+version. Nail-work gallery images and the hero video are static public files in
+the repository, so there is no gallery upload system in the dashboard.
+Appointment and customer details must stay private to the owner dashboard.
 
 Planned data groups:
 
-- `services`: service name, estimated duration, indicative minimum and maximum
-  price, active status
-- `appointments`: requested/confirmed appointment date and time, service,
-  customer contact, visit type, negotiated price, deposit status, and booking
-  status
-- `business_hours`: open days and hours
+- `appointments`: agreed appointment date and time, service, customer contact,
+  visit type, negotiated price, deposit status, and booking status
 - `business_settings`: daily booking limit (starts at two; Gift can raise it to
   three) and `Africa/Lagos` time zone
 - `blocked_dates`: days or times Gift is unavailable
-- `gallery_photos`: stored image path, caption/alt text, publication status, and
-  display order
 
 The backend must recheck availability when Gift records or confirms an
 appointment. A date is unavailable when the daily limit is reached or no
@@ -94,7 +94,8 @@ nails-by-gift-booking/
 ├── docs/
 │   └── PROJECT_PLAN.md
 ├── public/
-│   └── images/
+│   ├── images/
+│   └── videos/
 ├── src/
 │   ├── components/
 │   ├── pages/
@@ -114,15 +115,18 @@ nails-by-gift-booking/
 
 This is a small, feature-based layout: page components live in `pages`, shared
 interface pieces in `components`, and database/WhatsApp helpers in `services`.
-We can adjust it before creating the folders or installing dependencies.
+The supplied nail photos are in `public/images`; the supplied source video is
+in `public/videos`. The main video will use a still image fallback and a
+reduced-motion fallback.
 
 ## Still needed before implementation
 
 - Confirm that service durations may start as adjustable estimates within the
   usual two-to-three-hour range
 - Toe-nail indicative price, if it should be displayed
-- Photos for the gallery
 - Any additional contact details Gift wants shown
+- A web-friendly MP4 version of the supplied MOV video is preferred for more
+  consistent browser playback
 
 Do not put Supabase secret keys or customer information in GitHub. The browser
 will use only the Supabase project URL and publishable key; database access must

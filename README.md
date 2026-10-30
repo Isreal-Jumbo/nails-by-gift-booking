@@ -15,14 +15,17 @@ and appointment.
 ## Planned stack
 
 - React and Vite for the customer pages and owner dashboard
-- Supabase for the private appointment schedule, owner sign-in, and gallery
-  photo storage
+- Supabase for the private appointment schedule and owner sign-in
 - WhatsApp for booking conversations, design review, and manual deposit
   coordination
 - Vercel for hosting
 
 There will be no online checkout in the first version. A time is confirmed only
 after Gift agrees with the customer and verifies the deposit.
+
+Gallery photos and the hero video are kept as optimized public files in
+`public/images` and `public/videos`. Customers will attach their own inspiration
+photos directly in WhatsApp.
 
 ## Project status
 
