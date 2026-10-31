@@ -1,144 +1,79 @@
-# Nails By Gift — project plan
+# Nails By Gift — product scope
 
 ## Goal
 
-Make it easy for customers to see Nails By Gift's services and work, choose a
-preferred appointment date and time, and continue the conversation in WhatsApp.
-Gift discusses custom designs, final pricing, home-service travel costs, and
-deposit instructions with the customer there.
+Give customers a polished way to browse Nails By Gift’s work, check preferred appointment times, and start a booking conversation with Gift on WhatsApp. Give Gift a private dashboard for the schedule and availability.
 
-## Confirmed business details
+## Business details
 
-- Business name: Nails By Gift
-- Salon address: 13 Amusan Street, off Babs Ogunwole Street, by Samadola
-  Junction, Abule-Egba, Lagos, Nigeria
+- Business: Nails By Gift
+- Salon: 13 Amusan Street, off Babs Ogunwole Street, by Samadola Junction, Abule-Egba, Lagos, Nigeria
 - WhatsApp: +234 901 381 4632
 - TikTok: @nailsbygift145
-- Business time zone: Africa/Lagos
-- Opening hours: 10:00 a.m.–6:00 p.m., Monday through Saturday
-- Closed: Sunday
+- Time zone: Africa/Lagos
+- Hours: Monday–Saturday, 10:00 am–6:00 pm; closed Sunday
 - Home service: available within Lagos; travel cost is agreed in WhatsApp
-- Usual capacity: two appointments per day; Gift may raise the limit to three
-- Typical appointment length: about two to three hours
-- Deposits: paid manually; Gift verifies and records them
-- Emergency appointments: requests through WhatsApp only
-- No online checkout or customer accounts in the first version
+- Typical set length: two to three hours
+- Usual daily capacity: two appointments; Gift can raise it to three
+- Deposit: paid manually and marked by Gift in the dashboard
+- Emergency requests: arranged through WhatsApp
+- No online checkout or customer accounts
 
-## Customer experience
+## Customer flow
 
-1. Browse the salon introduction, contact information, service options, and
-   photos of Gift's work.
-2. Choose a service and, if desired, a nail shape or design idea.
-3. Choose salon or home service and a preferred available date and time.
-4. Use a WhatsApp call to action to send the request details to Gift. Customers
-   can attach inspiration photos directly in WhatsApp.
-5. Discuss the design, final price, travel cost if applicable, and deposit.
-6. Gift confirms the appointment after agreeing on the details and verifying the
-   deposit.
+1. Browse the landing page, services, nail styles, and gallery.
+2. Select an available date and a preferred start time: 10:00 am, 1:00 pm, or 4:00 pm.
+3. Select a service and salon or home service, enter contact details and optional design notes.
+4. Continue to WhatsApp with a prefilled request. Customers can attach design inspiration there.
+5. Gift and the customer agree on the design, final price, travel cost when relevant, and deposit.
+6. Gift records the agreed appointment and deposit status in the owner dashboard.
 
-A requested time is not reserved until Gift confirms it. The public calendar is
-based on appointments Gift has recorded, so it must say that availability is
-subject to confirmation.
+The website sends a request; it does not reserve an appointment. Availability reflects appointments Gift has entered. The page tells customers that Gift must confirm the requested appointment.
 
-## Services and pricing display
+## Availability rules
 
-- Acrylic nails: ₦18,000–₦20,000 usual range
-- Gel nails: ₦12,000–₦15,000 usual range
-- Toe nails: service offered; price to be supplied
-- Final prices can vary with the design and are negotiated in WhatsApp.
-- Shapes include almond, duck, stiletto, and square.
-- Design ideas include cat eye, French tips, marble, and plain nails.
-- Emergency requests are handled separately in WhatsApp and may have an extra
-  charge agreed with Gift.
+- Sundays and whole days marked unavailable are closed.
+- The public calendar shows only open days and start times; it does not expose customer details.
+- Active appointments awaiting a deposit or confirmed reserve their recorded time. Cancelled and completed appointments do not reserve availability.
+- The system checks appointment overlap before showing a preferred start time.
+- A global daily limit can be set to two or three appointments.
+- Gift can set a one-day limit from one to three and close individual start times for that date. A full day can be managed with a whole-day closure.
+- Dashboard entries at 4:00 pm are fixed to two hours so regular appointments finish by 6:00 pm.
+- Emergency appointments are not offered in the public booking form; they are arranged directly with Gift.
 
-## Frontend pages and sections
+## Owner dashboard
 
-- Home page with salon introduction and booking/contact calls to action
-- Services and styles with indicative prices and a custom-design WhatsApp link
-- Gallery of Gift's nail-work photos
-- Muted hero background video with a still-image fallback
-- Availability calendar and preferred-time selection
-- Booking request summary that opens WhatsApp with the selected details
-- Contact section with address, salon contacts, and map link if supplied
-- Private Gift dashboard for appointments, deposit status, blocked dates, and
-  daily capacity
-- Lazy-loaded gallery photos with image skeletons while each image loads
-- Availability skeletons while the schedule is being fetched
+The private `/owner` page uses Supabase email magic-link sign-in. Only users listed in `public.business_owners` may manage records. Gift can:
 
-## Backend and data
+- Add and update appointments, services, visit type, notes, agreed price, and appointment status.
+- Mark a deposit pending or received.
+- Set the global daily booking limit to two or three.
+- Block and reopen whole dates.
+- Set a date-specific booking limit and close selected public start times.
 
-Use Supabase with PostgreSQL and owner authentication. Business schedule and
-service descriptions can stay in the website configuration for the first
-version. Nail-work gallery images and the hero video are static public files in
-the repository, so there is no gallery upload system in the dashboard.
-Appointment and customer details must stay private to the owner dashboard.
+Because customer requests are handled in WhatsApp, Gift must enter an agreed booking in the dashboard for it to affect public availability.
 
-Planned data groups:
+## Implementation
 
-- `appointments`: agreed appointment date and time, service, customer contact,
-  visit type, negotiated price, deposit status, and booking status
-- `business_settings`: daily booking limit (starts at two; Gift can raise it to
-  three) and `Africa/Lagos` time zone
-- `blocked_dates`: days or times Gift is unavailable
+- React and Vite frontend.
+- Supabase Auth and PostgreSQL database.
+- Row Level Security protects appointments, blocked dates, per-date overrides, and owner actions.
+- A security-definer availability function returns only dates and available start times.
+- Public salon photos and video are static assets in `public/images` and `public/videos`.
+- Gallery photos load lazily with placeholders.
+- Vercel hosts the production site; `vercel.json` supports direct visits to client-side routes such as `/owner`.
 
-The backend must recheck availability when Gift records or confirms an
-appointment. A date is unavailable when the daily limit is reached or no
-appointment time remains that fits within 10:00 a.m.–6:00 p.m. The initial limit
-is two; raising it to three does not override time conflicts or the closing
-time.
+## Database objects
 
-## Planned repository layout
+- `business_settings`: operating hours, time zone, and global daily limit.
+- `appointments`: owner-entered customer appointments, statuses, deposit status, and agreed price.
+- `blocked_dates`: whole-day closures.
+- `date_booking_overrides`: per-date booking limit and unavailable preferred start times.
+- `business_owners`: approved Supabase Auth user IDs.
+- `get_public_booking_time_availability`: public date/time availability without customer data.
 
-```text
-nails-by-gift-booking/
-├── docs/
-│   └── PROJECT_PLAN.md
-├── public/
-│   ├── images/
-│   └── videos/
-├── src/
-│   ├── components/
-│   ├── pages/
-│   ├── services/
-│   ├── styles/
-│   ├── App.jsx
-│   └── main.jsx
-├── supabase/
-│   ├── functions/
-│   └── migrations/
-├── .env.example
-├── .gitignore
-├── index.html
-├── package.json
-└── README.md
-```
+SQL migrations are stored in `supabase/migrations/` and should be applied once, in timestamp order, to a new database.
 
-This is a small, feature-based layout: page components live in `pages`, shared
-interface pieces in `components`, and database/WhatsApp helpers in `services`.
-The supplied nail photos are in `public/images`; the supplied source video is
-in `public/videos`. The main video will use a still image fallback and a
-reduced-motion fallback.
+## Current status and next step
 
-## Open decisions before completing the booking flow
-
-- Confirm that service durations may start as adjustable estimates within the
-  usual two-to-three-hour range
-- Toe-nail indicative price, if it should be displayed
-- Any additional contact details Gift wants shown
-- A web-friendly MP4 version of the supplied MOV video is preferred for more
-  consistent browser playback
-
-Do not put Supabase secret keys or customer information in GitHub. The browser
-will use only the Supabase project URL and publishable key; database access must
-be restricted with Row Level Security. Owner-only actions must require Gift's
-authenticated account.
-
-## Build sequence
-
-1. Confirm the remaining business details and this plan.
-2. Create the repository layout and install the React, Vite, and Supabase tools.
-3. Create the database schema and add owner-only access rules.
-4. Finish the customer landing page, availability display, and WhatsApp flow.
-5. Build Gift's sign-in and appointment dashboard.
-6. Deploy the site, configure its Auth redirect URL, and resend Gift's invite.
-7. Verify booking rules, mobile layout, and deployment settings.
+The customer page, availability calendar, WhatsApp request flow, owner dashboard, and date-specific controls are implemented. The current Supabase project has the migrations applied and the local production build succeeds. The next project step is deploying to Vercel, adding the two Vite Supabase variables there, and configuring the production Auth redirect URL.
