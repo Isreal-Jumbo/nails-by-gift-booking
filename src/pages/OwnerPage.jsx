@@ -34,99 +34,16 @@ const dateLabel = (value) =>
 const timeLabel = (value) => value?.slice(0, 5);
 
 function NigerianDateInput({ value, min, onChange, required = false }) {
-  const [parts, setParts] = useState(() => {
-    const [year = "", month = "", day = ""] = value?.split("-").reverse() ?? [];
-    return { day, month, year };
-  });
-
-  useEffect(() => {
-    // Keep partial selections when the parent clears its complete ISO date
-    // while the user is changing one of the dropdowns.
-    if (!value) return;
-    const [year = "", month = "", day = ""] = value?.split("-").reverse() ?? [];
-    setParts({ day, month, year });
-  }, [value]);
-
-  const selectedYear = Number(parts.year);
-  const selectedMonth = Number(parts.month);
-  const daysInMonth =
-    selectedYear && selectedMonth
-      ? new Date(Date.UTC(selectedYear, selectedMonth, 0)).getUTCDate()
-      : 31;
-  const currentYear = Number(today().slice(0, 4));
-  const years = Array.from({ length: 8 }, (_, index) => currentYear + index);
-
-  function updatePart(name, nextValue) {
-    const next = { ...parts, [name]: nextValue };
-    if (
-      name !== "day" &&
-      Number(next.day) >
-        new Date(
-          Date.UTC(Number(next.year), Number(next.month), 0),
-        ).getUTCDate()
-    ) {
-      next.day = "";
-    }
-    setParts(next);
-    if (!next.day || !next.month || !next.year) {
-      onChange("");
-      return;
-    }
-    const isoDate = `${next.year}-${next.month}-${next.day}`;
-    onChange(min && isoDate < min ? "" : isoDate);
-  }
-
   return (
-    <div
-      className="nigerian-date-input"
-      aria-label="Date in day, month, year order"
-    >
-      <select
-        aria-label="Day"
-        required={required}
-        value={parts.day}
-        onChange={(event) => updatePart("day", event.target.value)}
-      >
-        <option value="">DD</option>
-        {Array.from({ length: daysInMonth }, (_, index) =>
-          String(index + 1).padStart(2, "0"),
-        ).map((day) => (
-          <option key={day} value={day}>
-            {day}
-          </option>
-        ))}
-      </select>
-      <span aria-hidden="true">/</span>
-      <select
-        aria-label="Month"
-        required={required}
-        value={parts.month}
-        onChange={(event) => updatePart("month", event.target.value)}
-      >
-        <option value="">MM</option>
-        {Array.from({ length: 12 }, (_, index) =>
-          String(index + 1).padStart(2, "0"),
-        ).map((month) => (
-          <option key={month} value={month}>
-            {month}
-          </option>
-        ))}
-      </select>
-      <span aria-hidden="true">/</span>
-      <select
-        aria-label="Year"
-        required={required}
-        value={parts.year}
-        onChange={(event) => updatePart("year", event.target.value)}
-      >
-        <option value="">YYYY</option>
-        {years.map((year) => (
-          <option key={year} value={String(year)}>
-            {year}
-          </option>
-        ))}
-      </select>
-    </div>
+    <input
+      type="date"
+      lang="en-GB"
+      min={min}
+      required={required}
+      value={value}
+      aria-label="Choose a date (day, month, year)"
+      onChange={(event) => onChange(event.target.value)}
+    />
   );
 }
 

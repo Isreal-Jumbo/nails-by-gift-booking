@@ -215,22 +215,6 @@
   font: inherit;
   font-size: 13px;
 }
-.nigerian-date-input {
-  display: grid;
-  grid-template-columns: minmax(52px, 0.8fr) auto minmax(
-      52px,
-      0.8fr
-    ) auto minmax(76px, 1.2fr);
-  align-items: center;
-  gap: 7px;
-}
-.nigerian-date-input select {
-  text-align: center;
-}
-.nigerian-date-input span {
-  color: #c9b3a8;
-  text-align: center;
-}
 .owner-page input:focus,
 .owner-page select:focus,
 .owner-page textarea:focus {
