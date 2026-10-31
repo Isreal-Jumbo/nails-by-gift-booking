@@ -1,0 +1,462 @@
+.owner-page {
+  min-height: 100vh;
+  padding: 32px 24px 72px;
+  color: #f7f0e8;
+  background: #17110f;
+}
+
+.owner-shell {
+  width: min(1120px, 100%);
+  margin: 0 auto;
+}
+.owner-topbar,
+.owner-heading,
+.owner-panel-heading,
+.owner-back,
+.owner-footnote {
+  display: flex;
+  align-items: center;
+}
+.owner-topbar,
+.owner-panel-heading {
+  justify-content: space-between;
+}
+.owner-topbar {
+  padding-bottom: 24px;
+  border-bottom: 1px solid #493532;
+}
+.owner-back {
+  gap: 8px;
+  color: #e8d8cc;
+  text-decoration: none;
+  font-size: 14px;
+}
+.owner-heading {
+  justify-content: space-between;
+  gap: 24px;
+  padding: 54px 0 30px;
+}
+.owner-heading h1,
+.owner-card h1 {
+  margin: 8px 0 10px;
+  font:
+    500 clamp(34px, 5vw, 54px)/1.05 Georgia,
+    serif;
+  letter-spacing: -0.04em;
+}
+.owner-heading h1 span,
+.owner-card h1 span {
+  color: #bf6277;
+}
+.owner-heading p:not(.owner-eyebrow),
+.owner-card > p:not(.owner-eyebrow) {
+  color: #c0aaa0;
+  line-height: 1.65;
+}
+.owner-eyebrow {
+  margin: 0;
+  color: #c27c84;
+  font-size: 10px;
+  letter-spacing: 0.19em;
+  font-weight: 700;
+}
+.owner-button {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 9px;
+  min-height: 43px;
+  padding: 0 16px;
+  border: 1px solid transparent;
+  border-radius: 3px;
+  cursor: pointer;
+  font: inherit;
+  font-size: 13px;
+  transition: 0.18s ease;
+}
+.owner-button:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+.owner-button.primary {
+  width: 100%;
+  color: #fff8f3;
+  background: #873b50;
+}
+.owner-button.primary:hover {
+  background: #a34a61;
+}
+.owner-button.secondary {
+  color: #f4e8df;
+  background: #2a201d;
+  border-color: #644940;
+}
+.owner-button.secondary:hover,
+.owner-button.quiet:hover {
+  border-color: #c27c84;
+}
+.owner-button.quiet {
+  color: #ddc9bd;
+  background: transparent;
+  border-color: #493532;
+}
+.owner-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin: 0 0 18px;
+}
+.owner-stat,
+.owner-panel {
+  border: 1px solid #493532;
+  background: #1d1614;
+}
+.owner-stat {
+  display: grid;
+  gap: 12px;
+  padding: 20px 22px;
+}
+.owner-stat span,
+.owner-panel > p,
+.owner-compact > p {
+  color: #bca79d;
+  font-size: 13px;
+  line-height: 1.6;
+}
+.owner-stat strong {
+  font:
+    500 30px/1 Georgia,
+    serif;
+}
+.owner-panel {
+  padding: 24px;
+}
+.owner-panel h2 {
+  margin: 7px 0 0;
+  font:
+    500 24px/1.15 Georgia,
+    serif;
+}
+.owner-panel-heading {
+  gap: 16px;
+  margin-bottom: 20px;
+}
+.owner-count {
+  color: #bca79d;
+  font-size: 12px;
+}
+.owner-empty {
+  padding: 26px 4px;
+  color: #c0aaa0;
+  font-size: 14px;
+}
+.owner-appointments {
+  display: grid;
+  gap: 10px;
+}
+.owner-appointment {
+  display: grid;
+  grid-template-columns: 175px minmax(180px, 1fr) minmax(280px, 1.2fr);
+  gap: 20px;
+  padding: 18px 0;
+  border-top: 1px solid #3e302c;
+}
+.appointment-date,
+.appointment-client {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  font-size: 13px;
+}
+.appointment-date strong,
+.appointment-client strong {
+  color: #f7eee8;
+  font-weight: 600;
+}
+.appointment-date span,
+.appointment-client span,
+.appointment-client a {
+  color: #bca79d;
+  text-decoration: none;
+}
+.appointment-client a:hover {
+  color: #eaa7af;
+}
+.appointment-client .appointment-notes {
+  color: #d7beb3;
+}
+.appointment-controls {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px 10px;
+}
+.appointment-controls label,
+.owner-form label,
+.owner-signin-form label {
+  display: grid;
+  gap: 6px;
+  color: #c9b3a8;
+  font-size: 11px;
+}
+.appointment-controls label:last-child {
+  grid-column: 1 / -1;
+}
+.owner-page input,
+.owner-page select,
+.owner-page textarea {
+  width: 100%;
+  min-width: 0;
+  min-height: 40px;
+  padding: 9px 10px;
+  color: #f6ece5;
+  border: 1px solid #59443e;
+  border-radius: 3px;
+  background: #17110f;
+  font: inherit;
+  font-size: 13px;
+}
+.owner-page input:focus,
+.owner-page select:focus,
+.owner-page textarea:focus {
+  outline: 1px solid #c27c84;
+  border-color: #c27c84;
+}
+.owner-page textarea {
+  resize: vertical;
+}
+.owner-columns {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(300px, 0.9fr);
+  gap: 16px;
+  margin-top: 16px;
+  align-items: start;
+}
+.owner-side-stack {
+  display: grid;
+  gap: 16px;
+}
+.owner-form {
+  display: grid;
+  gap: 13px;
+}
+.owner-form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.date-override-times {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  margin: 0;
+  padding: 13px 11px 11px;
+  border: 1px solid #59443e;
+}
+.date-override-times legend {
+  padding: 0 5px;
+  color: #c9b3a8;
+  font-size: 11px;
+}
+.date-override-times label {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  color: #e3d2c8;
+  font-size: 12px;
+  cursor: pointer;
+}
+.owner-page .date-override-times input[type="checkbox"] {
+  width: 15px;
+  min-width: 15px;
+  min-height: 15px;
+  height: 15px;
+  margin: 0;
+  padding: 0;
+  accent-color: #a34a61;
+}
+.owner-compact {
+  padding: 20px;
+}
+.owner-compact .owner-panel-heading {
+  margin-bottom: 12px;
+}
+.owner-compact h2 {
+  font-size: 21px;
+}
+.owner-limit-options {
+  display: flex;
+  gap: 8px;
+  margin-top: 15px;
+}
+.owner-limit-options button {
+  min-height: 39px;
+  padding: 0 14px;
+  color: #decac0;
+  background: transparent;
+  border: 1px solid #59443e;
+  border-radius: 3px;
+  cursor: pointer;
+}
+.owner-limit-options button.selected {
+  color: #fff;
+  background: #77384a;
+  border-color: #a35668;
+}
+.owner-blocked-list {
+  display: grid;
+  gap: 0;
+  padding: 0;
+  margin: 18px 0 0;
+  list-style: none;
+}
+.owner-blocked-list li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 0;
+  border-top: 1px solid #3e302c;
+  font-size: 12px;
+}
+.owner-blocked-list li span {
+  display: grid;
+  gap: 4px;
+}
+.owner-blocked-list small,
+.owner-small {
+  color: #bca79d;
+  font-size: 11px;
+}
+.owner-blocked-list button,
+.owner-notice button {
+  display: grid;
+  place-items: center;
+  padding: 7px;
+  color: #d6b6aa;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+.owner-footnote {
+  gap: 9px;
+  margin: 20px 0 0;
+  color: #bca79d;
+  font-size: 12px;
+  line-height: 1.6;
+}
+.owner-notice {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+  padding: 10px 14px;
+  color: #c9efcf;
+  border: 1px solid #416247;
+  background: #1c2b20;
+  font-size: 13px;
+}
+.owner-error,
+.owner-success {
+  padding: 11px 13px;
+  border-radius: 3px;
+  font-size: 13px;
+  line-height: 1.5;
+}
+.owner-error {
+  color: #ffd3d1;
+  border: 1px solid #7b3937;
+  background: #351b1a;
+}
+.owner-success {
+  color: #c9efcf;
+  border: 1px solid #416247;
+  background: #1c2b20;
+}
+.owner-loading {
+  width: min(500px, 100%);
+  margin: 20vh auto;
+  color: #d4c1b6;
+  text-align: center;
+}
+.owner-card {
+  width: min(470px, 100%);
+  margin: max(8vh, 24px) auto;
+  padding: clamp(25px, 6vw, 42px);
+  border: 1px solid #59443e;
+  background: #1d1614;
+}
+.owner-mark {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  margin: 38px 0 21px;
+  color: #df9ca7;
+  border: 1px solid #714451;
+}
+.owner-signin-form {
+  display: grid;
+  gap: 14px;
+  margin-top: 25px;
+}
+.owner-small {
+  margin-top: 17px;
+  line-height: 1.55;
+}
+.owner-form-note {
+  grid-column: 1 / -1;
+  margin: -5px 0 0;
+}
+.owner-card code {
+  color: #f1c4c5;
+}
+
+@media (max-width: 850px) {
+  .owner-appointment {
+    grid-template-columns: 150px minmax(160px, 1fr);
+  }
+  .appointment-controls {
+    grid-column: 1 / -1;
+  }
+  .owner-columns {
+    grid-template-columns: 1fr;
+  }
+}
+@media (max-width: 560px) {
+  .owner-page {
+    padding: 18px 15px 48px;
+  }
+  .owner-heading {
+    align-items: flex-start;
+    padding: 38px 0 24px;
+  }
+  .owner-heading > .owner-button {
+    padding-inline: 10px;
+  }
+  .owner-stats {
+    gap: 7px;
+  }
+  .owner-stat {
+    padding: 14px 11px;
+    gap: 10px;
+  }
+  .owner-stat span {
+    font-size: 10px;
+  }
+  .owner-stat strong {
+    font-size: 25px;
+  }
+  .owner-panel {
+    padding: 17px;
+  }
+  .owner-appointment {
+    grid-template-columns: 1fr;
+    gap: 13px;
+  }
+  .appointment-controls {
+    grid-column: auto;
+  }
+  .owner-footnote {
+    align-items: flex-start;
+  }
+}

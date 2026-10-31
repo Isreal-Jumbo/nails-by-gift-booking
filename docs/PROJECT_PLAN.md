@@ -119,7 +119,7 @@ The supplied nail photos are in `public/images`; the supplied source video is
 in `public/videos`. The main video will use a still image fallback and a
 reduced-motion fallback.
 
-## Still needed before implementation
+## Open decisions before completing the booking flow
 
 - Confirm that service durations may start as adjustable estimates within the
   usual two-to-three-hour range
@@ -136,9 +136,9 @@ authenticated account.
 ## Build sequence
 
 1. Confirm the remaining business details and this plan.
-2. Agree on the folder/file layout and add the project scaffold.
-3. Choose and install dependencies.
-4. Create the Supabase schema and access rules.
-5. Build the customer pages and WhatsApp request flow.
-6. Build the owner dashboard and availability management.
-7. Verify the booking rules, mobile layout, and deployment settings.
+2. Create the repository layout and install the React, Vite, and Supabase tools.
+3. Create the database schema and add owner-only access rules.
+4. Finish the customer landing page, availability display, and WhatsApp flow.
+5. Build Gift's sign-in and appointment dashboard.
+6. Deploy the site, configure its Auth redirect URL, and resend Gift's invite.
+7. Verify booking rules, mobile layout, and deployment settings.

@@ -23,12 +23,13 @@ and appointment.
 There will be no online checkout in the first version. A time is confirmed only
 after Gift agrees with the customer and verifies the deposit.
 
-Gallery photos and the hero video are kept as optimized public files in
+Gallery photos and the hero video are kept as public files in
 `public/images` and `public/videos`. Customers will attach their own inspiration
 photos directly in WhatsApp.
 
 ## Project status
 
-Repository layout and requirements are being prepared. Dependencies have not
-been installed and application code has not been started. See
-[the project plan](docs/PROJECT_PLAN.md).
+The React/Vite foundation and the first customer landing page are in progress.
+The WhatsApp calls to action and sample gallery are wired up. The availability
+calendar, owner sign-in, and dashboard still need to be connected to Supabase.
+See [the project plan](docs/PROJECT_PLAN.md).
