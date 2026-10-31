@@ -40,6 +40,9 @@ function NigerianDateInput({ value, min, onChange, required = false }) {
   });
 
   useEffect(() => {
+    // Keep partial selections when the parent clears its complete ISO date
+    // while the user is changing one of the dropdowns.
+    if (!value) return;
     const [year = "", month = "", day = ""] = value?.split("-").reverse() ?? [];
     setParts({ day, month, year });
   }, [value]);
