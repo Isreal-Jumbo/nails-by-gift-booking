@@ -33,67 +33,97 @@ const dateLabel = (value) =>
   }).format(new Date(`${value}T12:00:00Z`));
 const timeLabel = (value) => value?.slice(0, 5);
 
-function dateToDmy(isoDate) {
-  if (!isoDate) return "";
-  const [year, month, day] = isoDate.split("-");
-  return `${day}/${month}/${year}`;
-}
-
-function parseDmy(value) {
-  const match = /^(\d{2})\/(\d{2})\/(\d{4})$/.exec(value);
-  if (!match) return null;
-  const [, dayText, monthText, yearText] = match;
-  const day = Number(dayText);
-  const month = Number(monthText);
-  const year = Number(yearText);
-  const date = new Date(Date.UTC(year, month - 1, day));
-  if (
-    date.getUTCFullYear() !== year ||
-    date.getUTCMonth() !== month - 1 ||
-    date.getUTCDate() !== day
-  )
-    return null;
-  return `${yearText}-${monthText}-${dayText}`;
-}
-
 function NigerianDateInput({ value, min, onChange, required = false }) {
-  const [text, setText] = useState(() => dateToDmy(value));
+  const [parts, setParts] = useState(() => {
+    const [year = "", month = "", day = ""] = value?.split("-").reverse() ?? [];
+    return { day, month, year };
+  });
+
   useEffect(() => {
-    if (value) setText(dateToDmy(value));
+    const [year = "", month = "", day = ""] = value?.split("-").reverse() ?? [];
+    setParts({ day, month, year });
   }, [value]);
 
-  function handleChange(event) {
-    const input = event.currentTarget;
-    const nextText = input.value;
-    const isoDate = parseDmy(nextText);
-    setText(nextText);
-    if (/^\d{2}\/\d{2}\/\d{4}$/.test(nextText) && !isoDate) {
-      input.setCustomValidity("Enter a real date in DD/MM/YYYY format.");
+  const selectedYear = Number(parts.year);
+  const selectedMonth = Number(parts.month);
+  const daysInMonth =
+    selectedYear && selectedMonth
+      ? new Date(Date.UTC(selectedYear, selectedMonth, 0)).getUTCDate()
+      : 31;
+  const currentYear = Number(today().slice(0, 4));
+  const years = Array.from({ length: 8 }, (_, index) => currentYear + index);
+
+  function updatePart(name, nextValue) {
+    const next = { ...parts, [name]: nextValue };
+    if (
+      name !== "day" &&
+      Number(next.day) >
+        new Date(
+          Date.UTC(Number(next.year), Number(next.month), 0),
+        ).getUTCDate()
+    ) {
+      next.day = "";
+    }
+    setParts(next);
+    if (!next.day || !next.month || !next.year) {
       onChange("");
       return;
     }
-    if (isoDate && min && isoDate < min) {
-      input.setCustomValidity("Choose today or a future date.");
-      onChange("");
-      return;
-    }
-    input.setCustomValidity("");
-    onChange(isoDate || "");
+    const isoDate = `${next.year}-${next.month}-${next.day}`;
+    onChange(min && isoDate < min ? "" : isoDate);
   }
 
   return (
-    <input
-      type="text"
-      inputMode="numeric"
-      autoComplete="off"
-      placeholder="DD/MM/YYYY"
-      aria-label="Date in day, month, year format"
-      pattern="[0-9]{2}/[0-9]{2}/[0-9]{4}"
-      title="Enter a date as DD/MM/YYYY, for example 05/11/2026"
-      required={required}
-      value={text}
-      onChange={handleChange}
-    />
+    <div
+      className="nigerian-date-input"
+      aria-label="Date in day, month, year order"
+    >
+      <select
+        aria-label="Day"
+        required={required}
+        value={parts.day}
+        onChange={(event) => updatePart("day", event.target.value)}
+      >
+        <option value="">DD</option>
+        {Array.from({ length: daysInMonth }, (_, index) =>
+          String(index + 1).padStart(2, "0"),
+        ).map((day) => (
+          <option key={day} value={day}>
+            {day}
+          </option>
+        ))}
+      </select>
+      <span aria-hidden="true">/</span>
+      <select
+        aria-label="Month"
+        required={required}
+        value={parts.month}
+        onChange={(event) => updatePart("month", event.target.value)}
+      >
+        <option value="">MM</option>
+        {Array.from({ length: 12 }, (_, index) =>
+          String(index + 1).padStart(2, "0"),
+        ).map((month) => (
+          <option key={month} value={month}>
+            {month}
+          </option>
+        ))}
+      </select>
+      <span aria-hidden="true">/</span>
+      <select
+        aria-label="Year"
+        required={required}
+        value={parts.year}
+        onChange={(event) => updatePart("year", event.target.value)}
+      >
+        <option value="">YYYY</option>
+        {years.map((year) => (
+          <option key={year} value={String(year)}>
+            {year}
+          </option>
+        ))}
+      </select>
+    </div>
   );
 }
 
